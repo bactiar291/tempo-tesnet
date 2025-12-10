@@ -1,2 +1,4 @@
 # tempo-tesnet
-auto deploy 
+auto deploy testnet tempo
+# tambahkan private key di pk.txt 
+semoga bermanfaat 
