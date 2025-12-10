@@ -1,0 +1,28 @@
+{
+  "name": "tempo-auto-deploy-pro",
+  "version": "1.0.0",
+  "description": "Advanced automated deploy bot dengan random scheduling omkeh",
+  "main": "run.js",
+  "scripts": {
+    "deploy": "node run.js",
+    "start": "node run.js"
+  },
+  "keywords": [
+    "ethereum",
+    "deploy",
+    "tempo",
+    "testnet",
+    "solidity",
+    "auto-compile",
+    "scheduler"
+  ],
+  "author": "bactiar291",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.9.0",
+    "solc": "^0.8.20"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
