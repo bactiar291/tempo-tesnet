@@ -1,0 +1,2 @@
+# tempo-tesnet
+auto deploy 
