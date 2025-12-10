@@ -91,6 +91,20 @@ function getRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
+function getRandomMessage() {
+    const messages = [
+        "Hello Tempo",
+        "GM Tempo",
+        "GN Tempo",
+        "Testing Tempo",
+        "Done Tempo",
+        "Success Tempo",
+        "Deployed Tempo",
+        "Started Tempo"
+    ];
+    return getRandomElement(messages);
+}
+
 function formatTime(seconds) {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
@@ -144,26 +158,34 @@ async function deployContract(wallet, abi, bytecode, deployNumber, walletIndex) 
         const message = await contract.message();
         console.log('📨 Initial message:', message);
         
-        const randomDelay = getRandomInt(2, 5);
-        await countdown(randomDelay, 'Updating message in');
+        let txHash = null;
+        const shouldUpdate = Math.random() > 0.3;
         
-        const newMsg = `Deployed by Bot #${deployNumber} 🤖`;
-        console.log(`📤 Setting message: "${newMsg}"`);
-        const tx = await contract.setMessage(newMsg, {
-            gasLimit: getRandomInt(80000, 120000)
-        });
-        console.log('⏳ TX Hash:', tx.hash);
-        await tx.wait();
-        console.log('✅ Message updated!');
-        
-        const updatedMessage = await contract.message();
-        console.log('📨 New message:', updatedMessage);
+        if (shouldUpdate) {
+            const randomDelay = getRandomInt(2, 5);
+            await countdown(randomDelay, 'Updating message in');
+            
+            const newMsg = getRandomMessage();
+            console.log(`📤 Setting message: "${newMsg}"`);
+            const tx = await contract.setMessage(newMsg, {
+                gasLimit: getRandomInt(80000, 120000)
+            });
+            txHash = tx.hash;
+            console.log('⏳ TX Hash:', txHash);
+            await tx.wait();
+            console.log('✅ Message updated!');
+            
+            const updatedMessage = await contract.message();
+            console.log('📨 New message:', updatedMessage);
+        } else {
+            console.log('⏭️  Skipping message update (random behavior)');
+        }
         
         return {
             success: true,
             deployer: wallet.address,
             contractAddress: contractAddress,
-            txHash: tx.hash,
+            txHash: txHash,
             explorer: `${CONFIG.EXPLORER_URL}/address/${contractAddress}`,
             timestamp: new Date().toISOString(),
             walletIndex: walletIndex,
